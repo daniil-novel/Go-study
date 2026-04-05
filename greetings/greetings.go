@@ -3,18 +3,25 @@ package greetings
 import (
 	"errors"
 	"fmt"
+	"log"
+	"os"
 )
 
-// Hello returns a greeting for the named person.
 func Hello(name string) (message string, err error) {
-	// Return a greeting that embeds the name in a message.
-
-	if message == "" {
-		err = errors.New("empty message")
-		err1 := fmt.Errorf("User message: %s is empty", message)
-		return message, err1
+	if name == "" {
+		return "", errors.New("empty name")
 	}
 
 	message = fmt.Sprintf("Hi, %v. Welcome!", name)
-	return message, err
+
+	file, err := os.OpenFile("test.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return message, err
+	}
+	defer file.Close() // закрыть файл при выходе из функции
+
+	log.SetOutput(file)
+	log.Println("Log bla-blala")
+
+	return message, nil
 }
