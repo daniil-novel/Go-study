@@ -11,8 +11,8 @@ func Hello(name string) (message string, err error) {
 
 	if message == "" {
 		err = errors.New("empty message")
-		err1 = fmt.Errorf("User message: %s is empty", message)
-		return err
+		err1 := fmt.Errorf("User message: %s is empty", message)
+		return message, err1
 	}
 
 	message = fmt.Sprintf("Hi, %v. Welcome!", name)
